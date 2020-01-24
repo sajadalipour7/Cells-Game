@@ -6,6 +6,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 #include <graphics.h>
 #include <time.h>
 #include <math.h>
@@ -87,7 +89,35 @@ int main()
     ShowMyCellsOnMap(MapGame,sizemap,Player1);
     //--------------------------------------------------------------------
 
-    MapPrinterConsole(MapGame,sizemap);
+    //MapPrinterConsole(MapGame,sizemap);
+    //This is For Single Player Mode
+    while(1){
+        ShowPlayerCells(Player1,sizemap);
+        char tmp[7];
+        int temp;
+        gets(tmp);
+        temp=atoi(tmp);
+        int i;
+        struct cells* current=Player1->head;
+        for(i=1;i<temp;i++)
+            current=current->next;
+        char *name=current->cellule->name;
+        int x=current->cellule->x;
+        int y=current->cellule->y;
+        int energy=current->cellule->energy;
+        ShowOptionsMenu(current,MapGame);
+        gets(tmp);
+        temp=atoi(tmp);
+        switch (temp){
+        case 1:
+            ShowMovementOptions(current,MapGame);
+            break;
+        }
+        ShowMyMap(MapGame,sizemap);
+        ShowMyCellsOnMap(MapGame,sizemap,Player1);
+
+        //getch();
+    }
     getch();
     return 0;
 }
