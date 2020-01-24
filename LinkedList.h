@@ -72,6 +72,7 @@ void RemoveCellByName(struct MyCells* MyCells,char* name){
             current->next=current->next->next;
             free(tmp->cellule);
             free(tmp);
+            MyCells->length--;
         }
     }
 }

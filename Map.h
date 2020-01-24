@@ -9,7 +9,7 @@ int** MapReader(int **a,char *filename,int *sizemap){
     a=(int **)malloc(n * sizeof(int *));
     for (i=0; i<n; i++)
          a[i] = (int *)malloc(n * sizeof(int));
-    for(y=n-1;y>=0;y--){
+    for(y=0;y<n;y++){
         for(x=0;x<n;x++){
             fread(&situation,sizeof(char),1,fp);
             switch (situation){
@@ -35,7 +35,7 @@ int** MapReader(int **a,char *filename,int *sizemap){
 }
 void MapPrinterConsole(int **a,int n){
     int x,y;
-    for(y=n-1;y>=0;y--){
+    for(y=0;y<n;y++){
         for(x=0;x<n;x++)
             printf("%d ",a[y][x]);
         printf("\n");
