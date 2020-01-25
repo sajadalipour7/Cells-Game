@@ -32,7 +32,8 @@ int main()
     int flag=1;
     struct MyCells* Player1=CreateNewCellsList();
     struct MyCells* Player2=CreateNewCellsList();
-    do{
+    do
+    {
         switch(temp)
         {
         case 1:
@@ -95,6 +96,51 @@ int main()
             flag=0;
             break;
         case 2:
+            printf("[1]Custom Map\n[2]Random Map\n");
+            gets(tmp);
+            temp=atoi(tmp);
+            if(temp==1)
+            {
+                printf("Please enter your ideal size of map :\n");
+                gets(tmp);
+                temp=atoi(tmp);
+                char name[20];
+                MapRawCreator(temp,name);
+                printf("Please restart the game and load your map \n");
+                gets(tmp);
+                return 0;
+            }
+            else if(temp==2)
+            {
+                printf("Please enter your ideal save name :\n");
+                gets(tmp);
+                char dummy[7];
+                printf("Please enter your ideal size of map :\n");
+                gets(dummy);
+                int dum=atoi(dummy);
+                CreateRandomMap(tmp,dum);
+                MapGame=MapReader(MapGame,tmp,&sizemap);
+                printf("How Many Cells Do You Want?\n");
+                gets(tmp);
+                temp=atoi(tmp);
+                int i=0;
+                while(i<temp)
+                {
+                    int x=rand()%sizemap;
+                    int y=rand()%sizemap;
+                    if(MapGame[y][x]!=3  && CheckCellByLocation(Player1,x,y))
+                    {
+                        CelluleAppender(Player1,CreateNewCellule(RandString(7),0,x,y));
+                        i++;
+                    }
+                }
+                flag=0;
+            }
+            else
+            {
+                printf("Unknown Command!\n");
+                flag=1;
+            }
             break;
         case 3:
             break;
@@ -117,7 +163,8 @@ int main()
             flag=1;
             break;
         }
-    }while((temp!=1 && temp!=2 && temp!=3 && temp!=4) || flag);
+    }
+    while((temp!=1 && temp!=2 && temp!=3 && temp!=4) || flag);
     //---------------------------------------------------------------------------------------
     //Initializing Graphics for the Game
     initwindow(800,800);

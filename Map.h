@@ -30,12 +30,28 @@ int** MapReader(int **a,char *filename,int *sizemap)
                 a[y][x]=4;
                 break;
             default:
-                a[y][x]=situation;
+                a[y][x]=situation-'0';
                 break;
             }
         }
     }
+    fclose(fp);
     return a;
+}
+void CreateRandomMap(char *mapname,int sizemap)
+{
+    FILE *fp=fopen(mapname,"wb");
+    int n=sizemap,i,j;
+    fwrite(&n,sizeof(int),1,fp);
+    for(i=0; i<n; i++)
+    {
+        for(j=0; j<n; j++)
+        {
+            char x='1'+rand()%4;
+            fwrite(&x,sizeof(char),1,fp);
+        }
+    }
+    fclose(fp);
 }
 void MapPrinterConsole(int **a,int n)
 {
