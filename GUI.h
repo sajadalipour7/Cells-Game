@@ -121,7 +121,7 @@ void ShowMainMenu()
 }
 void ShowOptionsMenu(struct cells* current,int **MapGame)
 {
-    printf("[1]Move\n");
+    printf("------ %s ------\n[1]Move\n",current->cellule->name);
     printf("[2]Split a cell");
     if(current->cellule->energy<=80)
     {

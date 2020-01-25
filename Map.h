@@ -30,13 +30,45 @@ int** MapReader(int **a,char *filename,int *sizemap)
                 a[y][x]=4;
                 break;
             default:
-                a[y][x]=situation-'0';
+                int dummy=0;
+                //printf("%d\n",situation);
+                if(situation<0)
+                    dummy+=256;
+                a[y][x]=dummy+situation-'0';
                 break;
             }
         }
     }
     fclose(fp);
     return a;
+}
+void SaveMap(int **a,char *filename,int sizemap)
+{
+    int n=sizemap;
+    FILE *fp=fopen(filename,"wb");
+    fwrite(&n,sizeof(int),1,fp);
+    int i,j;
+    for(i=0; i<n; i++)
+    {
+        for(j=0; j<n; j++)
+        {
+            char x=a[i][j]+'0';
+            fwrite(&x,sizeof(char),1,fp);
+        }
+    }
+    fclose(fp);
+}
+void SaveCellsData(struct MyCells* Player,char* filename)
+{
+    FILE *fp=fopen(filename,"wb");
+    struct cells* current=Player->head;
+    fwrite(&(Player->length),sizeof(int),1,fp);
+    while(current!=NULL)
+    {
+        fwrite(current->cellule,sizeof(struct cellule),1,fp);
+        current=current->next;
+    }
+    fclose(fp);
 }
 void CreateRandomMap(char *mapname,int sizemap)
 {

@@ -15,9 +15,13 @@ void MapRawCreator(int sizemap,char name[20])
     for(i=0; i<n; i++)
         for(j=0; j<n; j++)
             a[i][j]=4;
-    printf("Instructions :\nLeftClick : Forbidden place\nRightClick : Energy place\nScrollButtonClick : Mitosis place\nDoubleLeftClick : Normal place\n");
-    printf("When your customizing finished just press any key\n");
+    printf("--------------------------------------------\nInstructions :\nLeftClick : Forbidden place\nRightClick : Energy place\nScrollButtonClick : Mitosis place\nDoubleLeftClick : Normal place\n");
+    printf("********When your customizing finished just press any key********\n");
     initwindow(800,800);
+    HWND hWnd, hWndChild;
+    hWnd = FindWindow(NULL, "Windows BGI");
+    hWndChild = GetWindow(hWnd, GW_CHILD);
+    SendMessage((HWND) hWnd, WM_SETTEXT,0, (LPARAM)"Map Editor");
     ShowMyMap(a,n);
     while(!kbhit())
     {
@@ -46,12 +50,12 @@ void MapRawCreator(int sizemap,char name[20])
             int ything=(int)(2*h);
             if(!(x%2))
             {
-                a[(int)(y/ything)][x/75]=1;
+                a[(int)(y/ything)][x/75]=100;
 
             }
             else
             {
-                a[(int)((y-h)/ything)][x/75]=1;
+                a[(int)((y-h)/ything)][x/75]=100;
 
             }
             ShowMyMap(a,n);
@@ -104,6 +108,8 @@ void MapRawCreator(int sizemap,char name[20])
     {
         for(j=0; j<n; j++)
         {
+            if(a[i][j]==100)
+                a[i][j]=1;
             char x=a[i][j]+'0';
             fwrite(&x,sizeof(char),1,fp);
         }
