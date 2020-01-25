@@ -57,17 +57,23 @@ void CelluleAppender(struct MyCells * MyCells, struct cellule *cellule)
         current->next = NewCell;
     }
 }
-void RemoveCellByName(struct MyCells* MyCells,char* name){
+void RemoveCellByName(struct MyCells* MyCells,char* name)
+{
     struct cells* current=MyCells->head;
-    if(!strcmp(current->cellule->name,name)){
+    if(!strcmp(current->cellule->name,name))
+    {
         MyCells->head=current->next;
         free(current->cellule);
         free(current);
-    }else{
-        while(current->next!=NULL && strcmp(current->next->cellule->name,name)){
+    }
+    else
+    {
+        while(current->next!=NULL && strcmp(current->next->cellule->name,name))
+        {
             current=current->next;
         }
-        if(current->next!=NULL){
+        if(current->next!=NULL)
+        {
             struct cells* tmp=current->next;
             current->next=current->next->next;
             free(tmp->cellule);
@@ -76,10 +82,13 @@ void RemoveCellByName(struct MyCells* MyCells,char* name){
         }
     }
 }
-int CheckCellByLocation(struct MyCells* Player,int x,int y){
+int CheckCellByLocation(struct MyCells* Player,int x,int y)
+{
     struct cells* current=Player->head;
-    while(current!=NULL){
-        if(current->cellule->x==x && current->cellule->y==y){
+    while(current!=NULL)
+    {
+        if(current->cellule->x==x && current->cellule->y==y)
+        {
             return 0;
         }
         current=current->next;

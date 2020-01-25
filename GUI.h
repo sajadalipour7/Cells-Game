@@ -88,6 +88,33 @@ void ShowMyCellsOnMap(int **MapGame,int sizemap,struct MyCells* Player)
         current=current->next;
     }
 }
+void ShowMyCellsOnMapPlayer2(int **MapGame,int sizemap,struct MyCells* Player)
+{
+    struct cells* current=Player->head;
+    setfillstyle(1,YELLOW);
+    float h=(sqrt(3)/2)*50;
+    float r=50/2;
+    while(current!=NULL)
+    {
+        if((current->cellule->x)%2)
+        {
+            settextstyle(6,0,1);
+            char energ[4];
+            itoa(current->cellule->energy,energ,10);
+            outtextxy((current->cellule->x)*75+50-20,(current->cellule->y)*2*h+50-35+h,energ);
+            fillellipse((current->cellule->x)*75+50,(current->cellule->y)*2*h+50+h,10,10);
+        }
+        else
+        {
+            settextstyle(6,0,1);
+            char energ[4];
+            itoa(current->cellule->energy,energ,10);
+            outtextxy((current->cellule->x)*75+50-20,(current->cellule->y)*2*h+50-35,energ);
+            fillellipse((current->cellule->x)*75+50,(current->cellule->y)*2*h+50,10,10);
+        }
+        current=current->next;
+    }
+}
 void ShowMainMenu()
 {
     printf("[1]Load\n[2]New single player game\n[3]New Multiplayer game\n[4]Exit\n");
@@ -108,7 +135,7 @@ void ShowOptionsMenu(struct cells* current,int **MapGame)
     }
     printf("\n[4]Save\n[5]Exit\n");
 }
-void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct MyCells* Player)
+void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct MyCells* Player,struct MyCells* Player2)
 {
     printf("[1]North\n[2]South\n[3]Northeast\n[4]Northwest\n[5]Southeast\n[6]Southwest\n");
     int x=current->cellule->x;
@@ -122,7 +149,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
     case 1:
         if(y-1>=0)
         {
-            if(CheckCellByLocation(Player,x,y-1) && MapGame[y-1][x]!=3)
+            if(CheckCellByLocation(Player2,x,y-1) && CheckCellByLocation(Player,x,y-1) && MapGame[y-1][x]!=3)
                 current->cellule->y--;
             else
                 printf("Sorry !\nYou can't go there  !\n");
@@ -135,7 +162,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
     case 2:
         if(y+1<sizemap)
         {
-            if(CheckCellByLocation(Player,x,y+1) && MapGame[y+1][x]!=3)
+            if(CheckCellByLocation(Player2,x,y+1) && CheckCellByLocation(Player,x,y+1) && MapGame[y+1][x]!=3)
             {
                 current->cellule->y++;
             }
@@ -154,7 +181,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
         {
             if(x+1<sizemap)
             {
-                if(CheckCellByLocation(Player,x+1,y) && MapGame[y][x+1]!=3)
+                if(CheckCellByLocation(Player2,x+1,y) && CheckCellByLocation(Player,x+1,y) && MapGame[y][x+1]!=3)
                 {
                     current->cellule->x++;
                 }
@@ -172,7 +199,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
         {
             if(x+1<sizemap && y-1>=0)
             {
-                if(CheckCellByLocation(Player,x+1,y-1) && MapGame[y-1][x+1]!=3)
+                if(CheckCellByLocation(Player2,x+1,y-1) && CheckCellByLocation(Player,x+1,y-1) && MapGame[y-1][x+1]!=3)
                 {
                     current->cellule->x++;
                     current->cellule->y--;
@@ -194,7 +221,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
         {
             if(x-1>=0)
             {
-                if(CheckCellByLocation(Player,x-1,y) && MapGame[y][x-1]!=3)
+                if(CheckCellByLocation(Player2,x-1,y) && CheckCellByLocation(Player,x-1,y) && MapGame[y][x-1]!=3)
                 {
                     current->cellule->x--;
                 }
@@ -212,7 +239,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
         {
             if(x-1>=0 && y-1>=0)
             {
-                if(CheckCellByLocation(Player,x-1,y-1) && MapGame[y-1][x-1]!=3)
+                if(CheckCellByLocation(Player2,x-1,y-1) && CheckCellByLocation(Player,x-1,y-1) && MapGame[y-1][x-1]!=3)
                 {
                     current->cellule->x--;
                     current->cellule->y--;
@@ -234,7 +261,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
         {
             if(x+1<sizemap && y+1<sizemap)
             {
-                if(CheckCellByLocation(Player,x+1,y+1) && MapGame[y+1][x+1]!=3)
+                if(CheckCellByLocation(Player2,x+1,y+1) && CheckCellByLocation(Player,x+1,y+1) && MapGame[y+1][x+1]!=3)
                 {
                     current->cellule->x++;
                     current->cellule->y++;
@@ -254,7 +281,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
         {
             if(x+1<sizemap)
             {
-                if(CheckCellByLocation(Player,x+1,y) && MapGame[y][x+1]!=3)
+                if(CheckCellByLocation(Player2,x+1,y) && CheckCellByLocation(Player,x+1,y) && MapGame[y][x+1]!=3)
                 {
                     current->cellule->x++;
                 }
@@ -275,7 +302,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
         {
             if(x-1>=0 && y+1<sizemap)
             {
-                if(CheckCellByLocation(Player,x-1,y+1) && MapGame[y+1][x-1]!=3)
+                if(CheckCellByLocation(Player2,x-1,y+1) && CheckCellByLocation(Player,x-1,y+1) && MapGame[y+1][x-1]!=3)
                 {
                     current->cellule->x--;
                     current->cellule->y++;
@@ -295,7 +322,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
         {
             if(x-1>=0)
             {
-                if(CheckCellByLocation(Player,x-1,y) && MapGame[y][x-1]!=3)
+                if(CheckCellByLocation(Player2,x-1,y) && CheckCellByLocation(Player,x-1,y) && MapGame[y][x-1]!=3)
                 {
                     current->cellule->x--;
                 }
