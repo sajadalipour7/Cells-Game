@@ -29,7 +29,8 @@ int main()
     temp=atoi(tmp);
     struct MyCells* Player1=CreateNewCellsList();
     struct MyCells* Player2=CreateNewCellsList();
-    switch(temp){
+    switch(temp)
+    {
     case 1:
         printf("Enter Your SaveSlot Name(.bin format) :\n");
         gets(tmp);
@@ -37,21 +38,26 @@ int main()
         printf("[1]Single Player\n[2]Multiplayer\n");
         gets(tmp);
         temp=atoi(tmp);
-        if(temp==1){
+        if(temp==1)
+        {
             printf("How Many Cells Do You Want?\n");
             gets(tmp);
             temp=atoi(tmp);
             int i=0;
-            while(i<temp){
+            while(i<temp)
+            {
                 int x=rand()%sizemap;
                 int y=rand()%sizemap;
-                if(MapGame[y][x]!=3){
+                if(MapGame[y][x]!=3)
+                {
                     CelluleAppender(Player1,CreateNewCellule(RandString(7),0,x,y));
                     i++;
                 }
             }
-            ShowMyCells(Player1);
-        }else if(temp==2){
+            //ShowMyCells(Player1);
+        }
+        else if(temp==2)
+        {
 
         }
         break;
@@ -91,7 +97,8 @@ int main()
 
     //MapPrinterConsole(MapGame,sizemap);
     //This is For Single Player Mode
-    while(1){
+    while(1)
+    {
         ShowPlayerCells(Player1,sizemap);
         char tmp[7];
         int temp;
@@ -99,7 +106,7 @@ int main()
         temp=atoi(tmp);
         int i;
         struct cells* current=Player1->head;
-        for(i=1;i<temp;i++)
+        for(i=1; i<temp; i++)
             current=current->next;
         char *name=current->cellule->name;
         int x=current->cellule->x;
@@ -108,9 +115,172 @@ int main()
         ShowOptionsMenu(current,MapGame);
         gets(tmp);
         temp=atoi(tmp);
-        switch (temp){
+        switch (temp)
+        {
         case 1:
-            ShowMovementOptions(current,MapGame);
+            ShowMovementOptions(current,MapGame,sizemap,Player1);
+            break;
+        case 2:
+            if(MapGame[y][x]==2)
+            {
+                if(energy>80)
+                {
+                    int xrand=0,yrand=0;
+                    if(x%2)
+                    {
+                        if(y+1<sizemap && CheckCellByLocation(Player1,x,y+1))
+                        {
+                            if(MapGame[y+1][x]!=3)
+                            {
+                                xrand=0;
+                                yrand=1;
+                            }
+                        }
+                        else if(y-1>=0 && CheckCellByLocation(Player1,x,y-1))
+                        {
+                            if(MapGame[y-1][x]!=3 )
+                            {
+                                xrand=0;
+                                yrand=-1;
+                            }
+                        }
+                        else if(x+1<sizemap && CheckCellByLocation(Player1,x+1,y))
+                        {
+                            if(MapGame[y][x+1]!=3  )
+                            {
+                                xrand=1;
+                                yrand=0;
+                            }
+                        }
+                        else if(y+1<sizemap && x+1<sizemap && CheckCellByLocation(Player1,x+1,y+1))
+                        {
+                            if(MapGame[y+1][x+1]!=3 )
+                            {
+                                xrand=1;
+                                yrand=1;
+                            }
+                        }
+                        else if(x-1>=0 && CheckCellByLocation(Player1,x-1,y))
+                        {
+                            if(MapGame[y][x-1]!=3  )
+                            {
+                                xrand=-1;
+                                yrand=0;
+                            }
+                        }
+                        else if(y+1<sizemap && x-1>=0  && CheckCellByLocation(Player1,x-1,y+1))
+                        {
+                            if(MapGame[y+1][x-1]!=3 )
+                            {
+                                xrand=-1;
+                                yrand=1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if(y+1<sizemap && CheckCellByLocation(Player1,x,y+1))
+                        {
+                            if(MapGame[y+1][x]!=3)
+                            {
+                                xrand=0;
+                                yrand=1;
+                            }
+                        }
+                        else if(y-1>=0 && CheckCellByLocation(Player1,x,y-1))
+                        {
+                            if(MapGame[y-1][x]!=3)
+                            {
+                                xrand=0;
+                                yrand=-1;
+                            }
+                        }
+                        else if(x+1<sizemap && CheckCellByLocation(Player1,x+1,y))
+                        {
+                            if(MapGame[y][x+1]!=3 )
+                            {
+                                xrand=1;
+                                yrand=0;
+                            }
+                        }
+                        else if(y-1>=0 && x+1<sizemap && CheckCellByLocation(Player1,x+1,y-1))
+                        {
+                            if(MapGame[y-1][x+1]!=3 )
+                            {
+                                xrand=1;
+                                yrand=-1;
+                            }
+                        }
+                        else if(x-1>=0  && CheckCellByLocation(Player1,x-1,y))
+                        {
+                            if(MapGame[y][x-1]!=3 )
+                            {
+                                xrand=-1;
+                                yrand=0;
+                            }
+                        }
+                        else if(y-1>=0 && x-1>=0 && CheckCellByLocation(Player1,x-1,y-1))
+                        {
+                            if(MapGame[y-1][x-1]!=3)
+                            {
+                                xrand=-1;
+                                yrand=-1;
+                            }
+                        }
+                    }
+                    if(!xrand && !yrand)
+                    {
+                        printf("Sorry \nCould'nt find a place to split the new cell\n");
+                    }
+                    else
+                    {
+                        RemoveCellByName(Player1,current->cellule->name);
+                        CelluleAppender(Player1,CreateNewCellule(RandString(7),40,x,y));
+                        CelluleAppender(Player1,CreateNewCellule(RandString(7),40,x+xrand,y+yrand));
+                    }
+                }
+                else
+                {
+                    printf("Sorry \nYou have not enough energy to split\n");
+                }
+            }
+            else
+            {
+                printf("Sorry \nThis is not an Splitting place\n");
+            }
+
+            break;
+        case 3:
+            if(MapGame[y][x]>15)
+            {
+                MapGame[y][x]-=15;
+                current->cellule->energy+=15;
+            }
+            else if(MapGame[y][x]>4)
+            {
+                current->cellule->energy=current->cellule->energy+MapGame[y][x];
+                MapGame[y][x]=0;
+            }
+            else if(MapGame[y][x]==0)
+            {
+                printf("Sorry \nThe Energy of this place is finished !\n");
+            }
+            else
+            {
+                printf("This is not an energy boost place !\n");
+            }
+            break;
+        case 4:
+            break;
+        case 5:
+            printf("Are you sure you want to close the game?\n[1]Yes\n[2]No\n");
+            gets(tmp);
+            temp=atoi(tmp);
+            if(temp==1)
+                return 0;
+            break;
+        default:
+            printf("Unknown Command!\n");
             break;
         }
         ShowMyMap(MapGame,sizemap);

@@ -76,6 +76,16 @@ void RemoveCellByName(struct MyCells* MyCells,char* name){
         }
     }
 }
+int CheckCellByLocation(struct MyCells* Player,int x,int y){
+    struct cells* current=Player->head;
+    while(current!=NULL){
+        if(current->cellule->x==x && current->cellule->y==y){
+            return 0;
+        }
+        current=current->next;
+    }
+    return 1;
+}
 void ShowMyCells(struct MyCells* MyCells)
 {
     struct cells* current= MyCells->head;

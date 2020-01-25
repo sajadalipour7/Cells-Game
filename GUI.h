@@ -61,19 +61,24 @@ void ShowMyMap(int **a,int n)
         y++;
     }
 }
-void ShowMyCellsOnMap(int **MapGame,int sizemap,struct MyCells* Player){
+void ShowMyCellsOnMap(int **MapGame,int sizemap,struct MyCells* Player)
+{
     struct cells* current=Player->head;
     setfillstyle(1,BROWN);
     float h=(sqrt(3)/2)*50;
     float r=50/2;
-    while(current!=NULL){
-        if((current->cellule->x)%2){
+    while(current!=NULL)
+    {
+        if((current->cellule->x)%2)
+        {
             settextstyle(6,0,1);
             char energ[4];
             itoa(current->cellule->energy,energ,10);
             outtextxy((current->cellule->x)*75+50-20,(current->cellule->y)*2*h+50-35+h,energ);
             fillellipse((current->cellule->x)*75+50,(current->cellule->y)*2*h+50+h,10,10);
-        }else{
+        }
+        else
+        {
             settextstyle(6,0,1);
             char energ[4];
             itoa(current->cellule->energy,energ,10);
@@ -87,54 +92,226 @@ void ShowMainMenu()
 {
     printf("[1]Load\n[2]New single player game\n[3]New Multiplayer game\n[4]Exit\n");
 }
-void ShowOptionsMenu(struct cells* current,int **MapGame){
+void ShowOptionsMenu(struct cells* current,int **MapGame)
+{
     printf("[1]Move\n");
     printf("[2]Split a cell");
-    if(current->cellule->energy<=80){
+    if(current->cellule->energy<=80)
+    {
         printf("    Unavailable !");
     }
     printf("\n");
     printf("[3]Boost Energy");
-    if(MapGame[current->cellule->y][current->cellule->x]==2 || MapGame[current->cellule->y][current->cellule->x]==3 || MapGame[current->cellule->y][current->cellule->x]==4){
+    if(MapGame[current->cellule->y][current->cellule->x]==2 || MapGame[current->cellule->y][current->cellule->x]==3 || MapGame[current->cellule->y][current->cellule->x]==4)
+    {
         printf("    Unavailable !");
     }
     printf("\n[4]Save\n[5]Exit\n");
 }
-void ShowMovementOptions(struct cells* current,int **MapGame){
+void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct MyCells* Player)
+{
+    printf("[1]North\n[2]South\n[3]Northeast\n[4]Northwest\n[5]Southeast\n[6]Southwest\n");
     int x=current->cellule->x;
     int y=current->cellule->y;
-    printf("[1]North\n[2]South\n[3]Northeast\n[4]Northwest\n[5]Southeast\n[6]Southwest\n");
     char tmp[5];
     int temp;
     gets(tmp);
     temp=atoi(tmp);
-    switch (temp){
+    switch (temp)
+    {
     case 1:
-        current->cellule->y--;
+        if(y-1>=0)
+        {
+            if(CheckCellByLocation(Player,x,y-1) && MapGame[y-1][x]!=3)
+                current->cellule->y--;
+            else
+                printf("Sorry !\nYou can't go there  !\n");
+        }
+        else
+        {
+            printf("Heyyy!\nYou can't go outside the world !\n");
+        }
         break;
     case 2:
-        current->cellule->y++;
+        if(y+1<sizemap)
+        {
+            if(CheckCellByLocation(Player,x,y+1) && MapGame[y+1][x]!=3)
+            {
+                current->cellule->y++;
+            }
+            else
+            {
+                printf("Sorry !\nYou can't go there  !\n");
+            }
+        }
+        else
+        {
+            printf("Heyyy!\nYou can't go outside the world !\n");
+        }
         break;
     case 3:
-        current->cellule->x++;
-        if(!(x%2))
-            current->cellule->y--;
-        break;
-    case 4:
-        current->cellule->x--;
-        if(!(x%2))
-            current->cellule->y--;
-        break;
-    case 5:
-        current->cellule->x++;
         if(x%2)
-            current->cellule->y++;
+        {
+            if(x+1<sizemap)
+            {
+                if(CheckCellByLocation(Player,x+1,y) && MapGame[y][x+1]!=3)
+                {
+                    current->cellule->x++;
+                }
+                else
+                {
+                    printf("Sorry !\nYou can't go there  !\n");
+                }
+            }
+            else
+            {
+                printf("Heyyy!\nYou can't go outside the world !\n");
+            }
+        }
+        else
+        {
+            if(x+1<sizemap && y-1>=0)
+            {
+                if(CheckCellByLocation(Player,x+1,y-1) && MapGame[y-1][x+1]!=3)
+                {
+                    current->cellule->x++;
+                    current->cellule->y--;
+                }
+                else
+                {
+                    printf("Sorry !\nYou can't go there  !\n");
+                }
+            }
+            else
+            {
+                printf("Heyyy!\nYou can't go outside the world !\n");
+            }
+        }
+        break;
+
+    case 4:
+        if(x%2)
+        {
+            if(x-1>=0)
+            {
+                if(CheckCellByLocation(Player,x-1,y) && MapGame[y][x-1]!=3)
+                {
+                    current->cellule->x--;
+                }
+                else
+                {
+                    printf("Sorry !\nYou can't go there  !\n");
+                }
+            }
+            else
+            {
+                printf("Heyyy!\nYou can't go outside the world !\n");
+            }
+        }
+        else
+        {
+            if(x-1>=0 && y-1>=0)
+            {
+                if(CheckCellByLocation(Player,x-1,y-1) && MapGame[y-1][x-1]!=3)
+                {
+                    current->cellule->x--;
+                    current->cellule->y--;
+                }
+                else
+                {
+                    printf("Sorry !\nYou can't go there  !\n");
+                }
+            }
+            else
+            {
+                printf("Heyyy!\nYou can't go outside the world !\n");
+            }
+        }
+        break;
+
+    case 5:
+        if(x%2)
+        {
+            if(x+1<sizemap && y+1<sizemap)
+            {
+                if(CheckCellByLocation(Player,x+1,y+1) && MapGame[y+1][x+1]!=3)
+                {
+                    current->cellule->x++;
+                    current->cellule->y++;
+                }
+                else
+                {
+                    printf("Sorry !\nYou can't go there  !\n");
+                }
+            }
+            else
+            {
+                printf("Heyyy!\nYou can't go outside the world !\n");
+            }
+
+        }
+        else
+        {
+            if(x+1<sizemap)
+            {
+                if(CheckCellByLocation(Player,x+1,y) && MapGame[y][x+1]!=3)
+                {
+                    current->cellule->x++;
+                }
+                else
+                {
+                    printf("Sorry !\nYou can't go there  !\n");
+                }
+            }
+            else
+            {
+                printf("Heyyy!\nYou can't go outside the world !\n");
+            }
+
+        }
         break;
     case 6:
-        current->cellule->x--;
         if(x%2)
-            current->cellule->y++;
+        {
+            if(x-1>=0 && y+1<sizemap)
+            {
+                if(CheckCellByLocation(Player,x-1,y+1) && MapGame[y+1][x-1]!=3)
+                {
+                    current->cellule->x--;
+                    current->cellule->y++;
+                }
+                else
+                {
+                    printf("Sorry !\nYou can't go there  !\n");
+                }
+            }
+            else
+            {
+                printf("Heyyy!\nYou can't go outside the world !\n");
+            }
+
+        }
+        else
+        {
+            if(x-1>=0)
+            {
+                if(CheckCellByLocation(Player,x-1,y) && MapGame[y][x-1]!=3)
+                {
+                    current->cellule->x--;
+                }
+                else
+                {
+                    printf("Sorry !\nYou can't go there !\n");
+                }
+            }
+            else
+            {
+                printf("Heyyy!\nYou can't go outside the world !\n");
+            }
+
+        }
         break;
+
     default:
         printf("Unknown Command !\n");
         break;
