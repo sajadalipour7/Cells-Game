@@ -119,13 +119,13 @@ void ShowMyCellsOnMapPlayer2(int **MapGame,int sizemap,struct MyCells* Player)
 }
 void ShowMainMenu()
 {
-    printf("[1]Load\n[2]New single player game\n[3]New Multiplayer game\n[4]Exit\n");
+    printf("[1]Load\n[2]New single player game\n[3]New Multiplayer game\n[4]Time Trial Mode\n[5]Exit\n");
 }
 void ShowOptionsMenu(struct cells* current,int **MapGame)
 {
     printf("------ %s ------\n[1]Move\n",current->cellule->name);
     printf("[2]Split a cell");
-    if(current->cellule->energy<=80)
+    if(current->cellule->energy<=80 || MapGame[current->cellule->y][current->cellule->x]!=2)
     {
         printf("    Unavailable !");
     }
@@ -136,6 +136,22 @@ void ShowOptionsMenu(struct cells* current,int **MapGame)
         printf("    Unavailable !");
     }
     printf("\n[4]Save\n[5]Exit\n");
+}
+void ShowOptionsMenuTimeMode(struct cells* current,int **MapGame)
+{
+    printf("------ %s ------\n[1]Move\n",current->cellule->name);
+    printf("[2]Split a cell");
+    if(current->cellule->energy<=80 || MapGame[current->cellule->y][current->cellule->x]!=2)
+    {
+        printf("    Unavailable !");
+    }
+    printf("\n");
+    printf("[3]Boost Energy");
+    if(MapGame[current->cellule->y][current->cellule->x]==2 || MapGame[current->cellule->y][current->cellule->x]==3 || MapGame[current->cellule->y][current->cellule->x]==4)
+    {
+        printf("    Unavailable !");
+    }
+    printf("\n[4]Exit\n");
 }
 void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct MyCells* Player,struct MyCells* Player2,int *flag)
 {

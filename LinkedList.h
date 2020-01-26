@@ -121,5 +121,14 @@ void ShowPlayerCells(struct MyCells* MyCells,int sizemap)
         i++;
     }
 }
+int SumScoresCells(struct MyCells* Player){
+    struct cells* current=Player->head;
+    int sum=0;
+    while(current!=NULL){
+        sum+=current->cellule->energy;
+        current=current->next;
+    }
+    return sum;
+}
 
 #endif // LINKEDLIST_H_INCLUDED
