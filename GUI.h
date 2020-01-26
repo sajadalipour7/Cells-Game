@@ -12,7 +12,9 @@ void ShowMyMap(int **a,int n)
 {
     float h=(sqrt(3)/2)*50;
     float r=50/2;
-    int i,j,x=0,y=0;
+    int i,j;
+    int x=0;
+    int y=0;
     for(i=0; i<n; i++)
     {
         for(j=0; j<n; j++)
@@ -135,7 +137,7 @@ void ShowOptionsMenu(struct cells* current,int **MapGame)
     }
     printf("\n[4]Save\n[5]Exit\n");
 }
-void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct MyCells* Player,struct MyCells* Player2)
+void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct MyCells* Player,struct MyCells* Player2,int *flag)
 {
     printf("[1]North\n[2]South\n[3]Northeast\n[4]Northwest\n[5]Southeast\n[6]Southwest\n");
     int x=current->cellule->x;
@@ -149,14 +151,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
     case 1:
         if(y-1>=0)
         {
-            if(CheckCellByLocation(Player2,x,y-1) && CheckCellByLocation(Player,x,y-1) && MapGame[y-1][x]!=3)
+            if(CheckCellByLocation(Player2,x,y-1) && CheckCellByLocation(Player,x,y-1) && MapGame[y-1][x]!=3){
                 current->cellule->y--;
-            else
+                *flag=1;
+            }else{
                 printf("Sorry !\nYou can't go there  !\n");
+                *flag=0;
+            }
         }
         else
         {
             printf("Heyyy!\nYou can't go outside the world !\n");
+            *flag=0;
         }
         break;
     case 2:
@@ -165,15 +171,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
             if(CheckCellByLocation(Player2,x,y+1) && CheckCellByLocation(Player,x,y+1) && MapGame[y+1][x]!=3)
             {
                 current->cellule->y++;
+                *flag=1;
             }
             else
             {
                 printf("Sorry !\nYou can't go there  !\n");
+                *flag=0;
             }
         }
         else
         {
             printf("Heyyy!\nYou can't go outside the world !\n");
+            *flag=0;
         }
         break;
     case 3:
@@ -184,15 +193,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
                 if(CheckCellByLocation(Player2,x+1,y) && CheckCellByLocation(Player,x+1,y) && MapGame[y][x+1]!=3)
                 {
                     current->cellule->x++;
+                    *flag=1;
                 }
                 else
                 {
                     printf("Sorry !\nYou can't go there  !\n");
+                    *flag=0;
                 }
             }
             else
             {
                 printf("Heyyy!\nYou can't go outside the world !\n");
+                *flag=0;
             }
         }
         else
@@ -203,15 +215,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
                 {
                     current->cellule->x++;
                     current->cellule->y--;
+                    *flag=1;
                 }
                 else
                 {
                     printf("Sorry !\nYou can't go there  !\n");
+                    *flag=0;
                 }
             }
             else
             {
                 printf("Heyyy!\nYou can't go outside the world !\n");
+                *flag=0;
             }
         }
         break;
@@ -224,15 +239,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
                 if(CheckCellByLocation(Player2,x-1,y) && CheckCellByLocation(Player,x-1,y) && MapGame[y][x-1]!=3)
                 {
                     current->cellule->x--;
+                    *flag=1;
                 }
                 else
                 {
                     printf("Sorry !\nYou can't go there  !\n");
+                    *flag=0;
                 }
             }
             else
             {
                 printf("Heyyy!\nYou can't go outside the world !\n");
+                *flag=0;
             }
         }
         else
@@ -243,15 +261,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
                 {
                     current->cellule->x--;
                     current->cellule->y--;
+                    *flag=1;
                 }
                 else
                 {
                     printf("Sorry !\nYou can't go there  !\n");
+                    *flag=0;
                 }
             }
             else
             {
                 printf("Heyyy!\nYou can't go outside the world !\n");
+                *flag=0;
             }
         }
         break;
@@ -265,15 +286,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
                 {
                     current->cellule->x++;
                     current->cellule->y++;
+                    *flag=1;
                 }
                 else
                 {
                     printf("Sorry !\nYou can't go there  !\n");
+                    *flag=0;
                 }
             }
             else
             {
                 printf("Heyyy!\nYou can't go outside the world !\n");
+                *flag=0;
             }
 
         }
@@ -284,15 +308,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
                 if(CheckCellByLocation(Player2,x+1,y) && CheckCellByLocation(Player,x+1,y) && MapGame[y][x+1]!=3)
                 {
                     current->cellule->x++;
+                    *flag=1;
                 }
                 else
                 {
                     printf("Sorry !\nYou can't go there  !\n");
+                    *flag=0;
                 }
             }
             else
             {
                 printf("Heyyy!\nYou can't go outside the world !\n");
+                *flag=0;
             }
 
         }
@@ -306,15 +333,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
                 {
                     current->cellule->x--;
                     current->cellule->y++;
+                    *flag=1;
                 }
                 else
                 {
                     printf("Sorry !\nYou can't go there  !\n");
+                    *flag=0;
                 }
             }
             else
             {
                 printf("Heyyy!\nYou can't go outside the world !\n");
+                *flag=0;
             }
 
         }
@@ -325,15 +355,18 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
                 if(CheckCellByLocation(Player2,x-1,y) && CheckCellByLocation(Player,x-1,y) && MapGame[y][x-1]!=3)
                 {
                     current->cellule->x--;
+                    *flag=1;
                 }
                 else
                 {
                     printf("Sorry !\nYou can't go there !\n");
+                    *flag=0;
                 }
             }
             else
             {
                 printf("Heyyy!\nYou can't go outside the world !\n");
+                *flag=0;
             }
 
         }
@@ -341,6 +374,7 @@ void ShowMovementOptions(struct cells* current,int **MapGame,int sizemap,struct 
 
     default:
         printf("Unknown Command !\n");
+        *flag=0;
         break;
     }
 }

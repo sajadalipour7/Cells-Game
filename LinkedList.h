@@ -113,6 +113,7 @@ void ShowPlayerCells(struct MyCells* MyCells,int sizemap)
     printf("Please choose one of your cells:\n");
     struct cells* current= MyCells->head;
     int i=0;
+    int j=0;
     while(current!=NULL)
     {
         printf("[%d] %s ( %d , %d )  Energy Level : %d\n",i+1,current->cellule->name,current->cellule->x,sizemap-1-current->cellule->y,current->cellule->energy);

@@ -2,6 +2,7 @@
 #define MAP_H_INCLUDED
 int** MapReader(int **a,char *filename,int *sizemap)
 {
+    int dmmr=0;
     FILE *fp=fopen(filename,"rb");
     int n,x,y,i;
     char situation;
@@ -67,6 +68,25 @@ void SaveCellsData(struct MyCells* Player,char* filename)
     {
         fwrite(current->cellule,sizeof(struct cellule),1,fp);
         current=current->next;
+    }
+    fclose(fp);
+}
+void SaveCellsDataMultiPlayerMode(struct MyCells* Player1,struct MyCells* Player2,char* filename)
+{
+    FILE *fp=fopen(filename,"wb");
+    struct cells* current1=Player1->head;
+    struct cells* current2=Player2->head;
+    fwrite(&(Player1->length),sizeof(int),1,fp);
+    while(current1!=NULL)
+    {
+        fwrite(current1->cellule,sizeof(struct cellule),1,fp);
+        current1=current1->next;
+    }
+    fwrite(&(Player2->length),sizeof(int),1,fp);
+    while(current2!=NULL)
+    {
+        fwrite(current2->cellule,sizeof(struct cellule),1,fp);
+        current2=current2->next;
     }
     fclose(fp);
 }
