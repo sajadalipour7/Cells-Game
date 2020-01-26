@@ -119,7 +119,7 @@ void ShowMyCellsOnMapPlayer2(int **MapGame,int sizemap,struct MyCells* Player)
 }
 void ShowMainMenu()
 {
-    printf("[1]Load\n[2]New single player game\n[3]New Multiplayer game\n[4]Time Trial Mode\n[5]Exit\n");
+    printf("[1]Load\n[2]New single player game\n[3]New Multiplayer game\n[4]Time Trial Mode\n[5]Scoreboard\n[6]Exit\n");
 }
 void ShowOptionsMenu(struct cells* current,int **MapGame)
 {

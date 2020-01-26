@@ -300,6 +300,26 @@ int main()
             flag=0;
             break;
         case 5:
+        {
+            flag=1;
+            printf("----------Scoreboard----------\n");
+            FILE *scb=fopen("Scoreboard.txt","r");
+            char dumb[20];
+            while(fgets(dumb,100,scb)!=NULL)
+            {
+                printf("%s",dumb);
+                printf("score : \n");
+                fgets(dumb,100,scb);
+                printf("%s--------------------\n",dumb);
+            }
+            printf("\n");
+            fclose(scb);
+            ShowMainMenu();
+            gets(tmp);
+            temp=atoi(tmp);
+            break;
+        }
+        case 6:
             printf("Are you sure you want to close the game?\n[1]Yes\n[2]No\n");
             gets(tmp);
             temp=atoi(tmp);
@@ -380,221 +400,221 @@ int main()
         while(FinishTimeMode>GetTimePast())
         {
             int dummy=0;
+            ShowPlayerCells(Player1,sizemap);
+            char tmp[7];
+            int temp;
+            gets(tmp);
+            temp=atoi(tmp);
+            while(temp>Player1->length)
+            {
+                printf("Unknown Command!\n");
                 ShowPlayerCells(Player1,sizemap);
-                char tmp[7];
-                int temp;
                 gets(tmp);
                 temp=atoi(tmp);
-                while(temp>Player1->length)
+            }
+            int i;
+            struct cells* current=Player1->head;
+            for(i=1; i<temp; i++)
+                current=current->next;
+            char *name=current->cellule->name;
+            int x=current->cellule->x;
+            int y=current->cellule->y;
+            int energy=current->cellule->energy;
+            ShowOptionsMenuTimeMode(current,MapGame);
+            gets(tmp);
+            temp=atoi(tmp);
+            switch (temp)
+            {
+            case 1:
+                ShowMovementOptions(current,MapGame,sizemap,Player1,Player2,&dummy);
+                break;
+            case 2:
+                if(MapGame[y][x]==2)
                 {
-                    printf("Unknown Command!\n");
-                    ShowPlayerCells(Player1,sizemap);
-                    gets(tmp);
-                    temp=atoi(tmp);
-                }
-                int i;
-                struct cells* current=Player1->head;
-                for(i=1; i<temp; i++)
-                    current=current->next;
-                char *name=current->cellule->name;
-                int x=current->cellule->x;
-                int y=current->cellule->y;
-                int energy=current->cellule->energy;
-                ShowOptionsMenuTimeMode(current,MapGame);
-                gets(tmp);
-                temp=atoi(tmp);
-                switch (temp)
-                {
-                case 1:
-                    ShowMovementOptions(current,MapGame,sizemap,Player1,Player2,&dummy);
-                    break;
-                case 2:
-                    if(MapGame[y][x]==2)
+                    if(energy>80)
                     {
-                        if(energy>80)
+                        int xrand=0,yrand=0;
+                        int IsFound=1;
+                        if(x%2)
                         {
-                            int xrand=0,yrand=0;
-                            int IsFound=1;
-                            if(x%2)
+                            if(y+1<sizemap && CheckCellByLocation(Player1,x,y+1) && IsFound)
                             {
-                                if(y+1<sizemap && CheckCellByLocation(Player1,x,y+1) && IsFound)
+                                if(MapGame[y+1][x]!=3)
                                 {
-                                    if(MapGame[y+1][x]!=3)
-                                    {
-                                        xrand=0;
-                                        yrand=1;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(y-1>=0 && CheckCellByLocation(Player1,x,y-1) && IsFound)
-                                {
-                                    if(MapGame[y-1][x]!=3 )
-                                    {
-                                        xrand=0;
-                                        yrand=-1;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(x+1<sizemap && CheckCellByLocation(Player1,x+1,y) && IsFound)
-                                {
-                                    if(MapGame[y][x+1]!=3  )
-                                    {
-                                        xrand=1;
-                                        yrand=0;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(y+1<sizemap && x+1<sizemap && CheckCellByLocation(Player1,x+1,y+1) && IsFound)
-                                {
-                                    if(MapGame[y+1][x+1]!=3 )
-                                    {
-                                        xrand=1;
-                                        yrand=1;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(x-1>=0 && CheckCellByLocation(Player1,x-1,y) && IsFound)
-                                {
-                                    if(MapGame[y][x-1]!=3  )
-                                    {
-                                        xrand=-1;
-                                        yrand=0;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(y+1<sizemap && x-1>=0  && CheckCellByLocation(Player1,x-1,y+1) && IsFound)
-                                {
-                                    if(MapGame[y+1][x-1]!=3 )
-                                    {
-                                        xrand=-1;
-                                        yrand=1;
-                                        IsFound=0;
-                                    }
+                                    xrand=0;
+                                    yrand=1;
+                                    IsFound=0;
                                 }
                             }
-                            else
+                            if(y-1>=0 && CheckCellByLocation(Player1,x,y-1) && IsFound)
                             {
-                                if(y+1<sizemap && CheckCellByLocation(Player1,x,y+1) && IsFound)
+                                if(MapGame[y-1][x]!=3 )
                                 {
-                                    if(MapGame[y+1][x]!=3)
-                                    {
-                                        xrand=0;
-                                        yrand=1;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(y-1>=0 && CheckCellByLocation(Player1,x,y-1) && IsFound)
-                                {
-                                    if(MapGame[y-1][x]!=3)
-                                    {
-                                        xrand=0;
-                                        yrand=-1;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(x+1<sizemap && CheckCellByLocation(Player1,x+1,y) && IsFound)
-                                {
-                                    if(MapGame[y][x+1]!=3 )
-                                    {
-                                        xrand=1;
-                                        yrand=0;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(y-1>=0 && x+1<sizemap && CheckCellByLocation(Player1,x+1,y-1) && IsFound)
-                                {
-                                    if(MapGame[y-1][x+1]!=3 )
-                                    {
-                                        xrand=1;
-                                        yrand=-1;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(x-1>=0  && CheckCellByLocation(Player1,x-1,y) && IsFound)
-                                {
-                                    if(MapGame[y][x-1]!=3 )
-                                    {
-                                        xrand=-1;
-                                        yrand=0;
-                                        IsFound=0;
-                                    }
-                                }
-                                if(y-1>=0 && x-1>=0 && CheckCellByLocation(Player1,x-1,y-1) && IsFound)
-                                {
-                                    if(MapGame[y-1][x-1]!=3)
-                                    {
-                                        xrand=-1;
-                                        yrand=-1;
-                                        IsFound=0;
-                                    }
+                                    xrand=0;
+                                    yrand=-1;
+                                    IsFound=0;
                                 }
                             }
-                            if(!xrand && !yrand)
+                            if(x+1<sizemap && CheckCellByLocation(Player1,x+1,y) && IsFound)
                             {
-                                printf("Sorry \nCould'nt find a place to split the new cell\n");
+                                if(MapGame[y][x+1]!=3  )
+                                {
+                                    xrand=1;
+                                    yrand=0;
+                                    IsFound=0;
+                                }
                             }
-                            else
+                            if(y+1<sizemap && x+1<sizemap && CheckCellByLocation(Player1,x+1,y+1) && IsFound)
                             {
-                                RemoveCellByName(Player1,current->cellule->name);
-                                CelluleAppender(Player1,CreateNewCellule(RandString(7),40,x,y));
-                                CelluleAppender(Player1,CreateNewCellule(RandString(7),40,x+xrand,y+yrand));
+                                if(MapGame[y+1][x+1]!=3 )
+                                {
+                                    xrand=1;
+                                    yrand=1;
+                                    IsFound=0;
+                                }
+                            }
+                            if(x-1>=0 && CheckCellByLocation(Player1,x-1,y) && IsFound)
+                            {
+                                if(MapGame[y][x-1]!=3  )
+                                {
+                                    xrand=-1;
+                                    yrand=0;
+                                    IsFound=0;
+                                }
+                            }
+                            if(y+1<sizemap && x-1>=0  && CheckCellByLocation(Player1,x-1,y+1) && IsFound)
+                            {
+                                if(MapGame[y+1][x-1]!=3 )
+                                {
+                                    xrand=-1;
+                                    yrand=1;
+                                    IsFound=0;
+                                }
                             }
                         }
                         else
                         {
-                            printf("Sorry \nYou have not enough energy to split\n");
+                            if(y+1<sizemap && CheckCellByLocation(Player1,x,y+1) && IsFound)
+                            {
+                                if(MapGame[y+1][x]!=3)
+                                {
+                                    xrand=0;
+                                    yrand=1;
+                                    IsFound=0;
+                                }
+                            }
+                            if(y-1>=0 && CheckCellByLocation(Player1,x,y-1) && IsFound)
+                            {
+                                if(MapGame[y-1][x]!=3)
+                                {
+                                    xrand=0;
+                                    yrand=-1;
+                                    IsFound=0;
+                                }
+                            }
+                            if(x+1<sizemap && CheckCellByLocation(Player1,x+1,y) && IsFound)
+                            {
+                                if(MapGame[y][x+1]!=3 )
+                                {
+                                    xrand=1;
+                                    yrand=0;
+                                    IsFound=0;
+                                }
+                            }
+                            if(y-1>=0 && x+1<sizemap && CheckCellByLocation(Player1,x+1,y-1) && IsFound)
+                            {
+                                if(MapGame[y-1][x+1]!=3 )
+                                {
+                                    xrand=1;
+                                    yrand=-1;
+                                    IsFound=0;
+                                }
+                            }
+                            if(x-1>=0  && CheckCellByLocation(Player1,x-1,y) && IsFound)
+                            {
+                                if(MapGame[y][x-1]!=3 )
+                                {
+                                    xrand=-1;
+                                    yrand=0;
+                                    IsFound=0;
+                                }
+                            }
+                            if(y-1>=0 && x-1>=0 && CheckCellByLocation(Player1,x-1,y-1) && IsFound)
+                            {
+                                if(MapGame[y-1][x-1]!=3)
+                                {
+                                    xrand=-1;
+                                    yrand=-1;
+                                    IsFound=0;
+                                }
+                            }
+                        }
+                        if(!xrand && !yrand)
+                        {
+                            printf("Sorry \nCould'nt find a place to split the new cell\n");
+                        }
+                        else
+                        {
+                            RemoveCellByName(Player1,current->cellule->name);
+                            CelluleAppender(Player1,CreateNewCellule(RandString(7),40,x,y));
+                            CelluleAppender(Player1,CreateNewCellule(RandString(7),40,x+xrand,y+yrand));
                         }
                     }
                     else
                     {
-                        printf("Sorry \nThis is not an Splitting place\n");
+                        printf("Sorry \nYou have not enough energy to split\n");
                     }
+                }
+                else
+                {
+                    printf("Sorry \nThis is not an Splitting place\n");
+                }
 
-                    break;
-                case 3:
-                    if(MapGame[y][x]>15 && current->cellule->energy<=85)
+                break;
+            case 3:
+                if(MapGame[y][x]>15 && current->cellule->energy<=85)
+                {
+                    MapGame[y][x]-=15;
+                    current->cellule->energy+=15;
+                }
+                else if(MapGame[y][x]>4 && (current->cellule->energy+MapGame[y][x])<=100)
+                {
+                    current->cellule->energy=current->cellule->energy+MapGame[y][x];
+                    MapGame[y][x]=0;
+                }
+                else if(MapGame[y][x]==0)
+                {
+                    printf("Sorry \nThe Energy of this place is finished !\n");
+                }
+                else
+                {
+                    if(current->cellule->energy>85)
                     {
-                        MapGame[y][x]-=15;
-                        current->cellule->energy+=15;
+                        printf("Cells Can't Boost Energy more than 100 !\n");
                     }
-                    else if(MapGame[y][x]>4 && (current->cellule->energy+MapGame[y][x])<=100)
+                    else if((current->cellule->energy+MapGame[y][x])>100)
                     {
-                        current->cellule->energy=current->cellule->energy+MapGame[y][x];
-                        MapGame[y][x]=0;
-                    }
-                    else if(MapGame[y][x]==0)
-                    {
-                        printf("Sorry \nThe Energy of this place is finished !\n");
+                        printf("Cells Can't Boost Energy more than 100 !\n");
                     }
                     else
                     {
-                        if(current->cellule->energy>85)
-                        {
-                            printf("Cells Can't Boost Energy more than 100 !\n");
-                        }
-                        else if((current->cellule->energy+MapGame[y][x])>100)
-                        {
-                            printf("Cells Can't Boost Energy more than 100 !\n");
-                        }
-                        else
-                        {
-                            printf("This is not an energy boost place !\n");
-                        }
+                        printf("This is not an energy boost place !\n");
                     }
-                    break;
-                case 4:
-                    printf("Are you sure you want to close the game?\n[1]Yes\n[2]No\n");
-                    gets(tmp);
-                    temp=atoi(tmp);
-                    if(temp==1)
-                        return 0;
-                    break;
-                default:
-                    printf("Unknown Command!\n");
-                    break;
                 }
-                ShowMyMap(MapGame,sizemap);
-                ShowMyCellsOnMap(MapGame,sizemap,Player1);
+                break;
+            case 4:
+                printf("Are you sure you want to close the game?\n[1]Yes\n[2]No\n");
+                gets(tmp);
+                temp=atoi(tmp);
+                if(temp==1)
+                    return 0;
+                break;
+            default:
+                printf("Unknown Command!\n");
+                break;
+            }
+            ShowMyMap(MapGame,sizemap);
+            ShowMyCellsOnMap(MapGame,sizemap,Player1);
 
         }
         printf("*******************************\nYour time finished !\n");
@@ -602,12 +622,14 @@ int main()
         printf("You Achieved %d Scores !\n",sumscores);
         printf("Please Enter Your Name to save your score in 'Scoreboard.txt':\n");
         gets(PlayerNameInTimeTrialMode);
+        char enter[3]="\n";
         FILE *sc=fopen("Scoreboard.txt","a+");
         fputs(PlayerNameInTimeTrialMode,sc);
-        fputc('\n',sc);
         char Score[20];
-        itoa(sumscores,Score,20);
+        fputs(enter,sc);
+        itoa(sumscores,Score,10);
         fputs(Score,sc);
+        fputs(enter,sc);
         fclose(sc);
         return 0;
 
