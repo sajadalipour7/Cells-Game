@@ -20,6 +20,28 @@ struct MyCells
     int length;
     struct cells* head;
 };
+struct PlayerScoreboard
+{
+    int score;
+    char name[20];
+};
+void bubblesort(struct PlayerScoreboard players[],int n)
+{
+    int j,i;
+    for(j=0;j<n;j++){
+        for(i=0;i<n-1;i++){
+            if(players[i].score<players[i+1].score ){
+                int tempscore=players[i].score;
+                char tempname[20];
+                strcpy(tempname,players[i].name);
+                players[i].score=players[i+1].score;
+                strcpy(players[i].name,players[i+1].name);
+                players[i+1].score=tempscore;
+                strcpy(players[i+1].name,tempname);
+            }
+        }
+    }
+}
 //Functions
 struct MyCells *CreateNewCellsList()
 {
@@ -130,5 +152,6 @@ int SumScoresCells(struct MyCells* Player){
     }
     return sum;
 }
+
 
 #endif // LINKEDLIST_H_INCLUDED

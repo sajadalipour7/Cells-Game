@@ -277,9 +277,9 @@ int main()
             TimeMode=1;
             MapGame=MapReader(MapGame,"TimeTrialMap.bin",&sizemap);
             printf("---------------------------\nWelcome to the Time Trial Mode\n");
-            printf("In this mode you have 2 minutes to achieve highest score you can earn\n");
+            printf("In this mode you have 3 minutes to achieve highest score you can earn\n");
             printf("Your score is the summation of your cellules's energy\n");
-            printf("when your time finishes your score will be saved in 'Scoreboard.txt'\n");
+            printf("when your time finishes your score will be saved in 'Scoreboard.txt' and also\nyou can see that in main menu\n");
             printf("Let's see what you can do :D\n");
             printf("----------------------------\n");
             printf("when you press enter timer will be started...\n");
@@ -288,13 +288,13 @@ int main()
             StartHour=GetHours();
             StartMinute=GetMinutes();
             StartSecond=GetSeconds();
-            printf("You started at ' %d ' : ' %d ' : ' %d '\n\n\n",StartHour,StartMinute,StartSecond);
+            printf("You started at  %02d:%02d:%02d\n\n\n",StartHour,StartMinute,StartSecond);
             StartTimeMode=GetTimePast();
-            FinishHour=TimeConvertor('h',StartHour,StartMinute,StartSecond,120);
-            FinishMinute=TimeConvertor('m',StartHour,StartMinute,StartSecond,120);
-            FinishSecond=TimeConvertor('s',StartHour,StartMinute,StartSecond,120);
+            FinishHour=TimeConvertor('h',StartHour,StartMinute,StartSecond,180);
+            FinishMinute=TimeConvertor('m',StartHour,StartMinute,StartSecond,180);
+            FinishSecond=TimeConvertor('s',StartHour,StartMinute,StartSecond,180);
             FinishTimeMode=FinishHour*3600+FinishMinute*60+FinishSecond;
-            printf("Your game will be finished at ' %d ' : ' %d ' : ' %d '\n",FinishHour,FinishMinute,FinishSecond);
+            printf("Your game will be finished at  %02d:%02d:%02d\n\n",FinishHour,FinishMinute,FinishSecond);
             printf("----------------------------\n");
             CelluleAppender(Player1,CreateNewCellule(RandString(7),0,0,0));
             flag=0;
@@ -304,16 +304,27 @@ int main()
             flag=1;
             printf("----------Scoreboard----------\n");
             FILE *scb=fopen("Scoreboard.txt","r");
+            struct PlayerScoreboard players[100];
+            int iter=0;
             char dumb[20];
             while(fgets(dumb,100,scb)!=NULL)
             {
-                printf("%s",dumb);
-                printf("score : \n");
+                //printf("%s",dumb);
+               // printf("score : \n");
+                strcpy(players[iter].name,dumb);
                 fgets(dumb,100,scb);
-                printf("%s--------------------\n",dumb);
+                players[iter].score=atoi(dumb);
+                //printf("%s--------------------\n",dumb);
+                iter++;
             }
             printf("\n");
             fclose(scb);
+            bubblesort(players,iter);
+            int rd;
+            for(rd=0;rd<iter;rd++){
+                printf("%s",players[rd].name);
+                printf("score : \n%d\n---------------\n",players[rd].score);
+            }
             ShowMainMenu();
             gets(tmp);
             temp=atoi(tmp);

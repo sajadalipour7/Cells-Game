@@ -55,6 +55,7 @@ int TimeConvertor(char x,int h,int m,int s,int t)
 long long int GetTimePast()
 {
     time_t t = time(NULL);
+    int dummy;
     struct tm tm = *localtime(&t);
     long long int TimePast=tm.tm_hour*3600+tm.tm_min*60+tm.tm_sec;
     return TimePast;

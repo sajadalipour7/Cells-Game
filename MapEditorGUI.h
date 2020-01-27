@@ -4,7 +4,7 @@
 void MapRawCreator(int sizemap,char name[20])
 {
     int n=sizemap;
-    int dummy=0;
+
     float h=(sqrt(3)/2)*50;
     float r=50/2;
     int i,j;

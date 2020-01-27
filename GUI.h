@@ -12,7 +12,7 @@ void ShowMyMap(int **a,int n)
 {
     float h=(sqrt(3)/2)*50;
     float r=50/2;
-    int i,j;
+    int i,j,duty;
     int x=0;
     int y=0;
     for(i=0; i<n; i++)

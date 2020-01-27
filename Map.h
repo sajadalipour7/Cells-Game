@@ -2,7 +2,6 @@
 #define MAP_H_INCLUDED
 int** MapReader(int **a,char *filename,int *sizemap)
 {
-    int dmmr=0;
     FILE *fp=fopen(filename,"rb");
     int n,x,y,i;
     char situation;
