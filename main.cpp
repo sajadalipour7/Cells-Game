@@ -310,7 +310,7 @@ int main()
             while(fgets(dumb,100,scb)!=NULL)
             {
                 //printf("%s",dumb);
-               // printf("score : \n");
+                // printf("score : \n");
                 strcpy(players[iter].name,dumb);
                 fgets(dumb,100,scb);
                 players[iter].score=atoi(dumb);
@@ -321,7 +321,8 @@ int main()
             fclose(scb);
             bubblesort(players,iter);
             int rd;
-            for(rd=0;rd<iter;rd++){
+            for(rd=0; rd<iter; rd++)
+            {
                 printf("%s",players[rd].name);
                 printf("score : \n%d\n---------------\n",players[rd].score);
             }
@@ -871,7 +872,10 @@ int main()
                     gets(tmp);
                     temp=atoi(tmp);
                     if(temp==1)
+                    {
+                        printf("You Achieved %d scores !\n",SumScoresCells(Player1));
                         return 0;
+                    }
                     break;
                 default:
                     printf("Unknown Command!\n");
@@ -1120,7 +1124,11 @@ int main()
                         gets(tmp);
                         temp=atoi(tmp);
                         if(temp==1)
+                        {
+                            printf("Player 1 Achieved %d scores !\n",SumScoresCells(Player1));
+                            printf("Player 2 Achieved %d scores !\n",SumScoresCells(Player2));
                             return 0;
+                        }
                         break;
                     default:
                         FlagPlayer1Turn=0;
@@ -1370,7 +1378,11 @@ int main()
                         gets(tmp);
                         temp=atoi(tmp);
                         if(temp==1)
+                        {
+                            printf("Player 1 Achieved %d scores !\n",SumScoresCells(Player1));
+                            printf("Player 2 Achieved %d scores !\n",SumScoresCells(Player2));
                             return 0;
+                        }
                         break;
                     default:
                         FlagPlayer2Turn=0;
